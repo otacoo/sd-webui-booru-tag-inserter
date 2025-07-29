@@ -11,6 +11,13 @@ Simply insert a `Danbooru` or `Gelbooru` URL into the extension field and press 
 The extension will fetch the **general**, **artist** and **character tags** and append them to the end of the positive prompt.\
 For `Danbooru` the **Copyright** and **meta** tags are ignored.
 
+## SD WebUI Installation
+
+1. Go into `Extensions` tab > `Install from URL`
+2. Paste `https://github.com/otacoo/sd-webui-booru-tag-inserter.git`
+3. Press Install
+4. Apply and Restart the UI
+
 ## Fetching from Gelbooru
 
 To fetch the tags from Gelbooru requires using their *API* and thus you need to have an account.\
