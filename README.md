@@ -1,7 +1,7 @@
 # SD WebUI Booru Tag Inserter
 A small extension to extract the tags from `Danbooru` / `Gelbooru` posts and insert them into the positive prompt textarea.
 
-<img width="614" height="162" alt="Capture" src="https://github.com/user-attachments/assets/d818e504-6373-41cb-badd-25681c8f4bb6" />
+<img width="614" height="162" alt="Capture" src="https://github.com/user-attachments/assets/e5b47b0a-05e2-427f-b1c8-441d2a8648db" />
 
 
 ## How work?
@@ -16,7 +16,7 @@ For `Danbooru` the **Copyright** and **meta** tags are ignored.
 To fetch the tags from Gelbooru requires using their *API* and thus you need to have an account.\
 In the settings menu of SD WebUI you can insert your API key and Gelbooru ID.
 
-<img width="506" height="300" alt="options" src="https://github.com/user-attachments/assets/b7e04224-8eb3-444f-a357-7cbc0a26a5c1" />
+<img width="506" height="300" alt="options" src="https://github.com/user-attachments/assets/85153448-e501-4952-b011-30f09bd326c3" />
 
 Go [here](https://gelbooru.com/index.php?page=account&s=options) to get your API key.\
 Nothing is sent anywhere but from your WebUI to Gelbooru to fetch the image info so your credentials are safe.
