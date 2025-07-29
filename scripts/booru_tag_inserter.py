@@ -3,6 +3,7 @@ import requests
 import gradio as gr
 from modules import scripts, script_callbacks, shared
 import contextlib
+import html
 
 
 def on_ui_settings():
@@ -37,7 +38,8 @@ def get_gelbooru_tags(post_id):
         if "post" not in data or not data["post"]:
             return "No post found on Gelbooru with that ID."
         tags = data['post'][0]['tags']
-        return ", ".join(tags.replace("_", " ").split())
+        processed_tags = [html.unescape(tag).replace("_", " ").replace("(", "\\(").replace(")", "\\)") for tag in tags.split()]
+        return ", ".join(processed_tags)
     except (requests.exceptions.JSONDecodeError, KeyError, IndexError):
         return "Error: Could not parse Gelbooru API response."
 
@@ -62,7 +64,8 @@ def get_danbooru_tags(post_id):
         if not all_tags:
             return "No tags found for this Danbooru post in the specified categories."
 
-        return ", ".join(tag.replace("_", " ") for tag in all_tags)
+        processed_tags = [html.unescape(tag).replace("_", " ").replace("(", "\\(").replace(")", "\\)") for tag in all_tags]
+        return ", ".join(processed_tags)
     except requests.exceptions.JSONDecodeError:
         return "Error: Could not parse Danbooru API response."
 
