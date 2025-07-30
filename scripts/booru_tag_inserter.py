@@ -5,11 +5,20 @@ from modules import scripts, script_callbacks, shared
 import contextlib
 import html
 
+def get_excluded_tags():
+    excluded_str = shared.opts.data.get("booru_tag_inserter_excluded_tags", "")
+    if not excluded_str:
+        return set()
+    # Normalise each tag (strip spaces, lower case, convert underscores to spaces)
+    return {tag.strip().lower().replace("_", " ") for tag in excluded_str.split(",") if tag.strip()}
+
+
 
 def on_ui_settings():
     section = ('booru-tag-inserter', "Booru Tag Inserter")
     shared.opts.add_option("booru_tag_inserter_gelbooru_user_id", shared.OptionInfo("", "Gelbooru User ID", section=section))
     shared.opts.add_option("booru_tag_inserter_gelbooru_api_key", shared.OptionInfo("", "Gelbooru API Key", section=section))
+    shared.opts.add_option("booru_tag_inserter_excluded_tags", shared.OptionInfo("", "Excluded Tags (comma-separated)", section=section))
 
 
 def get_gelbooru_tags(post_id):
@@ -39,7 +48,9 @@ def get_gelbooru_tags(post_id):
             return "No post found on Gelbooru with that ID."
         tags = data['post'][0]['tags']
         processed_tags = [html.unescape(tag).replace("_", " ").replace("(", "\\(").replace(")", "\\)") for tag in tags.split()]
-        return ", ".join(processed_tags)
+        excluded = get_excluded_tags()
+        filtered_tags = [tag for tag in processed_tags if tag.lower() not in excluded]
+        return ", ".join(filtered_tags)
     except (requests.exceptions.JSONDecodeError, KeyError, IndexError):
         return "Error: Could not parse Gelbooru API response."
 
@@ -65,7 +76,9 @@ def get_danbooru_tags(post_id):
             return "No tags found for this Danbooru post in the specified categories."
 
         processed_tags = [html.unescape(tag).replace("_", " ").replace("(", "\\(").replace(")", "\\)") for tag in all_tags]
-        return ", ".join(processed_tags)
+        excluded = get_excluded_tags()
+        filtered_tags = [tag for tag in processed_tags if tag.lower() not in excluded]
+        return ", ".join(filtered_tags)
     except requests.exceptions.JSONDecodeError:
         return "Error: Could not parse Danbooru API response."
 
